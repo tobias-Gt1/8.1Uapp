@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>Kaart - U Festival</title>
+    <link rel="manifest" href="manifest.json" />
+    <style>
+      :root {
+        --accent: #F03228;
+        --primary: #000000;
+        --secondary: #247BA0;
+        --paper: #ffffff;
+        --ink: #111111;
+        --muted: #2e2e2e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      body {
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      .phone {
+        width: 100%;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+      }
+
+      .header {
+        min-height: calc(108px + env(safe-area-inset-top));
+        background: var(--primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: env(safe-area-inset-top)
+          calc(17px + env(safe-area-inset-right)) 0
+          calc(20px + env(safe-area-inset-left));
+        flex: 0 0 auto;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand__mark {
+        width: 78px;
+        height: auto;
+        display: block;
+      }
+
+      .brand__name {
+        font-size: 27px;
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+      }
+
+      .header__actions {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .header__toggle {
+        width: 41px;
+        height: 41px;
+        position: relative;
+        border-radius: 50%;
+        background: var(--accent);
+        overflow: hidden;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+      }
+
+      .header__toggle::before {
+        content: "";
+        position: absolute;
+        inset: 0 51% 0 0;
+        background: #080808;
+        border-radius: 50% 0 0 50%;
+      }
+
+      .header__toggle::after {
+        content: "";
+        position: absolute;
+        inset: 6px 6px 6px 51%;
+        background: var(--accent);
+        border-radius: 0 50% 50% 0;
+      }
+
+      .flag {
+        width: 38px;
+        height: 24px;
+        border-radius: 1px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+      }
+
+      .flag span {
+        display: block;
+      }
+
+      .flag__red {
+        background: #ff4538;
+      }
+
+      .flag__white {
+        background: #ffffff;
+      }
+
+      .flag__blue {
+        background: #62a8cf;
+      }
+
+      .content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        text-align: center;
+      }
+
+      .placeholder {
+        font-size: 18px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .placeholder h1 {
+        color: var(--secondary);
+        font-size: 28px;
+        margin: 0 0 16px;
+      }
+
+      .footer {
+        min-height: calc(108px + env(safe-area-inset-bottom));
+        background: var(--accent);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: center;
+        gap: 8px;
+        padding: 0 calc(16px + env(safe-area-inset-right))
+          env(safe-area-inset-bottom) calc(16px + env(safe-area-inset-left));
+        flex: 0 0 auto;
+      }
+
+      .nav-item {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 140ms ease, opacity 140ms ease;
+      }
+
+      .nav-item--active {
+        transform: translateY(-2px) scale(1.02);
+        opacity: 1;
+      }
+
+      .nav-item:not(.nav-item--active) {
+        opacity: 0.82;
+      }
+
+      .nav-item img,
+      .nav-item svg {
+        display: block;
+      }
+
+      .nav-icon--home {
+        width: 38px;
+        height: 38px;
+      }
+
+      .nav-icon--info {
+        width: 40px;
+        height: 40px;
+      }
+
+      .nav-icon--music {
+        width: 32px;
+        height: 32px;
+      }
+
+      .nav-icon--pin {
+        width: 38px;
+        height: 38px;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="phone" aria-label="U Festival kaart">
+      <!-- header -->
+      <header class="header">
+        <div class="brand" aria-label="U Festival">
+          <img
+            class="brand__mark"
+            src="assets/logo_white.svg"
+            alt="U Festival logo"
+          />
+          <span class="brand__name">Festival</span>
+        </div>
+
+        <div class="header__actions" aria-hidden="true">
+          <div class="header__toggle"></div>
+          <div class="flag" aria-label="Nederlandse vlag">
+            <span class="flag__red"></span>
+            <span class="flag__white"></span>
+            <span class="flag__blue"></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="content" aria-label="Festival kaart">
+        <div class="placeholder">
+          <h1>Kaart</h1>
+          <p>Interactieve festivalkaart met locaties komt binnenkort!</p>
+        </div>
+      </section>
+
+      <!-- footer -->
+      <footer class="footer" aria-label="Navigatie">
+        <a class="nav-item" href="home.html" aria-label="Home">
+          <img
+            class="nav-icon--home"
+            src="assets/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Home"
+          />
+        </a>
+
+        <a class="nav-item" href="info.html" aria-label="Info">
+          <img
+            class="nav-icon--info"
+            src="assets/info_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Info"
+          />
+        </a>
+
+        <a class="nav-item" href="agenda.html" aria-label="Agenda">
+          <img
+            class="nav-icon--music"
+            src="assets/music_note_2_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Agenda"
+          />
+        </a>
+
+        <a class="nav-item nav-item--active" href="map.html" aria-label="Kaart">
+          <svg
+            class="nav-icon--pin"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            role="presentation"
+          >
+            <path
+              d="M12 21.25s6.5-5.73 6.5-10.75A6.5 6.5 0 0 0 12 4a6.5 6.5 0 0 0-6.5 6.5c0 5.02 6.5 10.75 6.5 10.75Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+              stroke-linejoin="round"
+            />
+            <circle
+              cx="12"
+              cy="10.5"
+              r="2.2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+            />
+          </svg>
+        </a>
+      </footer>
+    </main>
+
+    <script>
+      function initNavigation() {
+        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+          item.classList.remove('nav-item--active');
+          if (item.getAttribute('href') === currentPage ||
+              (currentPage === '' && item.getAttribute('href') === 'home.html')) {
+            item.classList.add('nav-item--active');
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavigation);
+      } else {
+        initNavigation();
+      }
+    </script>
+  </body>
+</html>

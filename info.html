@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>Info - U Festival</title>
+    <link rel="manifest" href="manifest.json" />
+    <style>
+      :root {
+        --accent: #F03228;
+        --primary: #000000;
+        --secondary: #247BA0;
+        --paper: #ffffff;
+        --ink: #111111;
+        --muted: #2e2e2e;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        min-height: 100%;
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Aptos", "Segoe UI", sans-serif;
+      }
+
+      body { padding: 0; overflow-x: hidden; }
+
+      .phone {
+        width: 100%;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        background: var(--primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        flex: 0 0 auto;
+        min-height: 80px;
+      }
+
+      .brand { display: flex; align-items: center; gap: 10px; }
+      .brand__mark { width: 50px; height: auto; }
+      .brand__name { font-size: 20px; font-weight: 800; }
+
+      .header__actions { display: flex; gap: 15px; align-items: center; }
+
+      .header__toggle {
+        width: 35px;
+        height: 35px;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+
+      .flag {
+        width: 32px;
+        height: 20px;
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+      }
+
+      .flag span { display: block; }
+      .flag__red { background: #ff4538; }
+      .flag__white { background: #ffffff; }
+      .flag__blue { background: #62a8cf; }
+
+      .content {
+        flex: 1;
+        overflow: auto;
+        padding: 12px 12px calc(12px + 100px) 12px;
+        background: var(--paper);
+      }
+
+      .accordion { margin-bottom: 12px; }
+
+      .accordion__button {
+        width: 100%;
+        height: 60px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(180deg, #2f88b0 0%, #2d84ac 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15px;
+        font-style: italic;
+        transition: all 140ms ease;
+      }
+
+      .accordion__button:active {
+        transform: translateY(-1px);
+      }
+
+      .accordion__icon {
+        width: 20px;
+        height: 20px;
+        filter: brightness(0) invert(1);
+        transition: transform 140ms ease;
+      }
+
+      .accordion--open .accordion__icon {
+        transform: rotate(90deg);
+      }
+
+      .accordion__content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 200ms ease, padding 200ms ease;
+      }
+
+      .accordion--open .accordion__content {
+        max-height: 2000px;
+        padding: 16px;
+      }
+
+      .accordion__body {
+        background: var(--paper);
+        border-radius: 0 0 10px 10px;
+      }
+
+      .section { margin: 0; }
+
+      .section h3 {
+        margin: 12px 0 8px 0;
+        color: var(--secondary);
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .section h3:first-child { margin-top: 0; }
+
+      .section p {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+
+      .section p:last-child { margin-bottom: 0; }
+
+      .section a {
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .highlight {
+        background: #E3B505;
+        color: var(--primary);
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-weight: 600;
+      }
+
+      .footer {
+        background: var(--accent);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: center;
+        padding: 12px;
+        gap: 8px;
+        flex: 0 0 auto;
+        min-height: 80px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .nav-item {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: transform 140ms ease, opacity 140ms ease;
+      }
+
+      .nav-item--active {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+
+      .nav-item:not(.nav-item--active) { opacity: 0.7; }
+
+      .nav-item img, .nav-item svg { display: block; width: 32px; }
+    </style>
+  </head>
+  <body>
+    <main class="phone">
+      <header class="header">
+        <div class="brand">
+          <img class="brand__mark" src="assets/logo_white.svg" alt="Logo" />
+          <span class="brand__name">Festival</span>
+        </div>
+        <div class="header__actions">
+          <div class="header__toggle"></div>
+          <div class="flag">
+            <span class="flag__red"></span>
+            <span class="flag__white"></span>
+            <span class="flag__blue"></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="accordion accordion--open">
+          <button class="accordion__button">
+            <span>Algemeen & contact</span>
+            <img class="accordion__icon" src="assets/arrow_forward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="" />
+          </button>
+          <div class="accordion__content">
+            <div class="accordion__body">
+              <div class="section">
+                <p>Het ❤️U Festival is voor (nieuwe) studenten in de regio Utrecht.</p>
+                <h3>Adres</h3>
+                <p><strong>Locatie:</strong> Strijkviertel, Utrecht<br><strong>Navigatie:</strong> Strijkviertelweg, Utrecht</p>
+                <h3>Datum & Uren</h3>
+                <p><strong>Zaterdag 15 augustus 2026</strong><br>12:00 - 23:00 uur</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion">
+          <button class="accordion__button">
+            <span>Bereikbaarheid</span>
+            <img class="accordion__icon" src="assets/arrow_forward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="" />
+          </button>
+          <div class="accordion__content">
+            <div class="accordion__body">
+              <div class="section">
+                <h3>Fiets</h3>
+                <p>Gratis fietsenstalling aanwezig.</p>
+                <h3>Auto</h3>
+                <p>Parkeerticket: P+R Papendorp. <span class="highlight">VOL=VOL</span></p>
+                <h3>OV</h3>
+                <p>Plan je trip via <a href="https://9292.nl/" target="_blank">9292.nl</a></p>
+                <h3>Shuttlebus</h3>
+                <p>Gratis bus van Utrecht Centraal. 12:00-19:00 heen, 21:00+ terug.</p>
+                <h3>Taxi</h3>
+                <p>Kiss & Ride: Volg bordjes bij festivalterrein.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion">
+          <button class="accordion__button">
+            <span>Lockers</span>
+            <img class="accordion__icon" src="assets/arrow_forward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="" />
+          </button>
+          <div class="accordion__content">
+            <div class="accordion__body">
+              <div class="section">
+                <p>Kluisjes beschikbaar op terrein. Pas 3-4 jassen in. Open/sluit zoveel je wil.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion">
+          <button class="accordion__button">
+            <span>Veelgestelde vragen</span>
+            <img class="accordion__icon" src="assets/arrow_forward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="" />
+          </button>
+          <div class="accordion__content">
+            <div class="accordion__body">
+              <div class="section">
+                <h3>Medicatie meenemen?</h3>
+                <p>Ja, max 1 dag dosis. Doktersverklaring nodig. Beveiliging checkt.</p>
+                <h3>Terrein verlaten?</h3>
+                <p>Nee, niet mogelijk. Veel lounges, food & bars beschikbaar.</p>
+                <h3>Golden-GLU</h3>
+                <p>GLU-studenten krijgen gouden armbandje. Speciale toiletten & no-wait bars.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <a class="nav-item" href="home.html">
+          <img src="assets/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Home" />
+        </a>
+        <a class="nav-item" href="info.html">
+          <img src="assets/info_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Info" />
+        </a>
+        <a class="nav-item" href="agenda.html">
+          <img src="assets/music_note_2_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Agenda" />
+        </a>
+        <a class="nav-item" href="map.html">
+          <svg class="nav-icon--pin" viewBox="0 0 24 24">
+            <path d="M12 21.25s6.5-5.73 6.5-10.75A6.5 6.5 0 0 0 12 4a6.5 6.5 0 0 0-6.5 6.5c0 5.02 6.5 10.75 6.5 10.75Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" />
+            <circle cx="12" cy="10.5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.9" />
+          </svg>
+        </a>
+      </footer>
+    </main>
+
+    <script>
+      function initNavigation() {
+        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.classList.remove('nav-item--active');
+          if (item.getAttribute('href') === currentPage ||
+              (currentPage === '' && item.getAttribute('href') === 'home.html')) {
+            item.classList.add('nav-item--active');
+          }
+        });
+      }
+
+      function initAccordions() {
+        initNavigation();
+        document.querySelectorAll('.accordion__button').forEach((btn, i) => {
+          btn.addEventListener('click', (e) => {
+            const acc = btn.parentElement;
+            const isOpen = acc.classList.toggle('accordion--open');
+            if (isOpen) {
+              document.querySelectorAll('.accordion').forEach((a, j) => {
+                if (i !== j) a.classList.remove('accordion--open');
+              });
+            }
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAccordions);
+      } else {
+        initAccordions();
+      }
+    </script>
+  </body>
+</html>

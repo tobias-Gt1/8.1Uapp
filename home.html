@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>U Festival</title>
+    <link rel="manifest" href="manifest.json">
+    <!-- Onsen UI (optional components for mobile UI) -->
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <style>
+      :root {
+        --black: #050505;
+        --red: #ff3b2f;
+        --blue: #2d83ab;
+        --blue-dark: #2a769a;
+        --paper: #ffffff;
+        --ink: #111111;
+        --muted: #2e2e2e;
+        --shadow: rgba(0, 0, 0, 0.16);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        background: #ffffff;
+        color: var(--ink);
+        font-family: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      body {
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .phone {
+        width: 100%;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+        overflow: hidden;
+      }
+
+      .header {
+        min-height: calc(108px + env(safe-area-inset-top));
+        background: var(--black);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: env(safe-area-inset-top)
+          calc(17px + env(safe-area-inset-right)) 0
+          calc(20px + env(safe-area-inset-left));
+        flex: 0 0 auto;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .brand__mark {
+        width: 78px;
+        height: auto;
+        display: block;
+        flex: 0 0 auto;
+      }
+
+      .brand__name {
+        font-size: 27px;
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .header__actions {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex: 0 0 auto;
+      }
+
+      .header__toggle {
+        width: 41px;
+        height: 41px;
+        position: relative;
+        border-radius: 50%;
+        background: var(--red);
+        overflow: hidden;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+      }
+
+      .header__toggle::before {
+        content: "";
+        position: absolute;
+        inset: 0 51% 0 0;
+        background: #080808;
+        border-radius: 50% 0 0 50%;
+      }
+
+      .header__toggle::after {
+        content: "";
+        position: absolute;
+        inset: 6px 6px 6px 51%;
+        background: var(--red);
+        border-radius: 0 50% 50% 0;
+      }
+
+      .flag {
+        width: 38px;
+        height: 24px;
+        border-radius: 1px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+        flex: 0 0 auto;
+      }
+
+      .flag span {
+        display: block;
+      }
+
+      .flag__red {
+        background: #ff4538;
+      }
+
+      .flag__white {
+        background: #ffffff;
+      }
+
+      .flag__blue {
+        background: #62a8cf;
+      }
+
+      .content {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: auto;
+        background: #fff;
+        padding: 6px max(6px, env(safe-area-inset-right))
+          calc(18px + env(safe-area-inset-bottom))
+          max(6px, env(safe-area-inset-left));
+      }
+
+      .accordion {
+        height: 70px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #2f88b0 0%, #2d84ac 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px 0 22px;
+        margin-bottom: 6px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .accordion:focus-visible,
+      .nav-item:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.9);
+        outline-offset: 3px;
+      }
+
+      .accordion__title {
+        margin: 0;
+        font-size: clamp(1.9rem, 5.9vw, 2.6rem);
+        line-height: 1;
+        font-style: italic;
+        font-weight: 300;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+
+      .accordion__arrow {
+        width: 26px;
+        height: 26px;
+        flex: 0 0 auto;
+        filter: brightness(0) invert(1);
+        opacity: 0.98;
+      }
+
+      .accordion--open .accordion__arrow {
+        transform: rotate(90deg);
+        transform-origin: center;
+      }
+
+      .accordion--active {
+        transform: translateY(-1px);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 6px 14px rgba(0, 0, 0, 0.08);
+      }
+
+      .section {
+        padding: 27px 24px 18px;
+      }
+
+      .section h2 {
+        margin: 0 0 22px;
+        color: var(--blue-dark);
+        font-size: 22px;
+        line-height: 1.05;
+        font-weight: 700;
+      }
+
+      .section p {
+        margin: 0 0 22px;
+        font-size: 18px;
+        line-height: 1.42;
+        color: var(--muted);
+        max-width: 100%;
+      }
+
+      .footer {
+        min-height: calc(108px + env(safe-area-inset-bottom));
+        background: var(--red);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: center;
+        gap: 8px;
+        padding: 0 calc(16px + env(safe-area-inset-right))
+          env(safe-area-inset-bottom) calc(16px + env(safe-area-inset-left));
+        flex: 0 0 auto;
+      }
+
+      .nav-item {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition:
+          transform 140ms ease,
+          opacity 140ms ease;
+      }
+
+      .nav-item--active {
+        transform: translateY(-2px) scale(1.02);
+        opacity: 1;
+      }
+
+      .nav-item:not(.nav-item--active) {
+        opacity: 0.82;
+      }
+
+      .nav-item img,
+      .nav-item svg {
+        display: block;
+      }
+
+      .nav-icon--home {
+        width: 38px;
+        height: 38px;
+      }
+
+      .nav-icon--info {
+        width: 40px;
+        height: 40px;
+      }
+
+      .nav-icon--music {
+        width: 32px;
+        height: 32px;
+      }
+
+      .nav-icon--pin {
+        width: 38px;
+        height: 38px;
+        color: #fff;
+      }
+
+      @media (min-width: 768px) {
+        .phone {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="phone" aria-label="U Festival home screen">
+      <header class="header">
+        <div class="brand" aria-label="U Festival">
+          <img
+            class="brand__mark"
+            src="assets/logo_white.svg"
+            alt="U Festival logo"
+          />
+          <span class="brand__name">Festival</span>
+        </div>
+
+        <div class="header__actions" aria-hidden="true">
+          <div class="header__toggle"></div>
+          <div class="flag" aria-label="Nederlandse vlag">
+            <span class="flag__red"></span>
+            <span class="flag__white"></span>
+            <span class="flag__blue"></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="content" aria-label="Festival informatie">
+        <div class="accordion accordion--open">
+          <p class="accordion__title">Algemeen &amp; contact</p>
+          <img
+            class="accordion__arrow"
+            src="assets/arrow_forward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt=""
+          />
+        </div>
+
+        <div class="accordion">
+          <p class="accordion__title">Bereikbaarheid</p>
+          <img
+            class="accordion__arrow"
+            src="assets/arrow_forward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt=""
+          />
+        </div>
+
+        <section class="section">
+          <h2>Fiets</h2>
+          <p>
+            Er is een grote gratis fietsenstalling aanwezig waar je jouw fiets
+            de gehele dag kunt stallen.
+          </p>
+
+          <h2>Auto</h2>
+          <p>
+            Je kunt een parkingticket aanschaffen. Parkeren kan op P+R
+            Papendorp, volg hiervoor de borden 'P online ticket'. Heb je geen
+            ticket van te voren gekocht? Dan kun je bij de parkeerwachter op
+            locatie een parkeerticket aanschaffen (PIN ONLY). Let wel op: VOL =
+            VOL.
+          </p>
+        </section>
+      </section>
+
+      <footer class="footer" aria-label="Navigatie">
+        <a class="nav-item nav-item--active" href="home.html" aria-label="Home">
+          <img
+            class="nav-icon--home"
+            src="assets/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Home"
+          />
+        </a>
+
+        <a class="nav-item" href="info.html" aria-label="Info">
+          <img
+            class="nav-icon--info"
+            src="assets/info_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Info"
+          />
+        </a>
+
+        <a class="nav-item" href="agenda.html" aria-label="Agenda">
+          <img
+            class="nav-icon--music"
+            src="assets/music_note_2_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Agenda"
+          />
+        </a>
+
+        <a class="nav-item" href="map.html" aria-label="Kaart">
+          <svg
+            class="nav-icon--pin"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            role="presentation"
+          >
+            <path
+              d="M12 21.25s6.5-5.73 6.5-10.75A6.5 6.5 0 0 0 12 4a6.5 6.5 0 0 0-6.5 6.5c0 5.02 6.5 10.75 6.5 10.75Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+              stroke-linejoin="round"
+            />
+            <circle
+              cx="12"
+              cy="10.5"
+              r="2.2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+            />
+          </svg>
+        </a>
+      </footer>
+    </main>
+
+    <script>
+      function initNavigation() {
+        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.classList.remove('nav-item--active');
+          if (item.getAttribute('href') === currentPage ||
+              (currentPage === '' && item.getAttribute('href') === 'home.html')) {
+            item.classList.add('nav-item--active');
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavigation);
+      } else {
+        initNavigation();
+      }
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+          .then(() => console.log('Service Worker Registered'))
+          .catch(e => console.warn('SW registration failed:', e));
+      }
+    </script>
+  </body>
+</html>

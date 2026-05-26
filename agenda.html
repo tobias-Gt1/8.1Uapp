@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>Agenda - U Festival</title>
+    <link rel="manifest" href="manifest.json" />
+    <style>
+      :root {
+        --accent: #F03228;
+        --base: #FFFFFF;
+        --primary: #000000;
+        --secondary: #247BA0;
+        --info: #E3B505;
+        --paper: #ffffff;
+        --ink: #111111;
+        --muted: #2e2e2e;
+        --shadow: rgba(0, 0, 0, 0.16);
+        --grid-line: #e5e5e5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        overflow: hidden;
+      }
+
+      .phone {
+        width: 100%;
+        height: 100svh;
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+      }
+
+      .header {
+        min-height: calc(108px + env(safe-area-inset-top));
+        background: var(--primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: env(safe-area-inset-top)
+          calc(17px + env(safe-area-inset-right)) 0
+          calc(20px + env(safe-area-inset-left));
+        flex: 0 0 auto;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand__mark {
+        width: 78px;
+        height: auto;
+        display: block;
+      }
+
+      .brand__name {
+        font-size: 27px;
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+      }
+
+      .header__actions {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .header__toggle {
+        width: 41px;
+        height: 41px;
+        position: relative;
+        border-radius: 50%;
+        background: var(--accent);
+        overflow: hidden;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+      }
+
+      .header__toggle::before {
+        content: "";
+        position: absolute;
+        inset: 0 51% 0 0;
+        background: #080808;
+        border-radius: 50% 0 0 50%;
+      }
+
+      .header__toggle::after {
+        content: "";
+        position: absolute;
+        inset: 6px 6px 6px 51%;
+        background: var(--accent);
+        border-radius: 0 50% 50% 0;
+      }
+
+      .flag {
+        width: 38px;
+        height: 24px;
+        border-radius: 1px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+      }
+
+      .flag span {
+        display: block;
+      }
+
+      .flag__red {
+        background: #ff4538;
+      }
+
+      .flag__white {
+        background: #ffffff;
+      }
+
+      .flag__blue {
+        background: #62a8cf;
+      }
+
+      .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .day-tabs {
+        display: flex;
+        gap: 12px;
+        padding: 12px max(12px, env(safe-area-inset-right)) 12px
+          max(12px, env(safe-area-inset-left));
+        background: var(--paper);
+        border-bottom: 1px solid var(--grid-line);
+        flex: 0 0 auto;
+      }
+
+      .day-tab {
+        appearance: none;
+        border: 0;
+        padding: 12px 24px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 140ms ease;
+        white-space: nowrap;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .day-tab--active {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .day-tab:not(.day-tab--active) {
+        background: var(--secondary);
+        color: #fff;
+      }
+
+      .schedule-wrapper {
+        display: none;
+        flex: 1;
+        min-height: 0;
+        position: relative;
+      }
+
+      .schedule-wrapper--active {
+        display: flex;
+      }
+
+      .time-headers {
+        position: absolute;
+        top: 0;
+        left: 80px;
+        right: 0;
+        height: 50px;
+        display: flex;
+        background: var(--paper);
+        border-bottom: 2px solid var(--secondary);
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .time-header {
+        flex: 0 0 80px;
+        padding: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--secondary);
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid var(--grid-line);
+        white-space: nowrap;
+      }
+
+      .location-headers {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 80px;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+        border-right: 2px solid var(--secondary);
+        z-index: 9;
+        pointer-events: none;
+      }
+
+      .location-header {
+        flex: 1;
+        padding: 12px 4px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-bottom: 1px solid var(--grid-line);
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+      }
+
+      .schedule-container {
+        position: absolute;
+        top: 50px;
+        left: 80px;
+        right: 0;
+        bottom: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+      }
+
+      .schedule-grid {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .schedule-row {
+        flex: 1;
+        display: flex;
+        position: relative;
+        border-bottom: 1px solid var(--grid-line);
+        min-height: 80px;
+      }
+
+      .schedule-cell {
+        flex: 0 0 80px;
+        position: relative;
+        border-right: 1px solid var(--grid-line);
+        background: var(--paper);
+      }
+
+      .event-block {
+        position: absolute;
+        inset: 4px;
+        background: var(--secondary);
+        color: #fff;
+        border-radius: 8px;
+        padding: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+        transition: all 140ms ease;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .event-block--favorite {
+        background: var(--accent);
+      }
+
+      .event-block:active {
+        transform: scale(0.98);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .event-title {
+        font-weight: 700;
+        font-size: 11px;
+        line-height: 1.2;
+      }
+
+      .event-time {
+        font-size: 10px;
+        opacity: 0.9;
+      }
+
+      .event-heart {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 16px;
+        height: 16px;
+        filter: brightness(0) invert(1);
+        opacity: 0.5;
+        transition: opacity 140ms ease;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .event-heart--favorited {
+        opacity: 1;
+      }
+
+      .footer {
+        min-height: calc(108px + env(safe-area-inset-bottom));
+        background: var(--accent);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: center;
+        gap: 8px;
+        padding: 0 calc(16px + env(safe-area-inset-right))
+          env(safe-area-inset-bottom) calc(16px + env(safe-area-inset-left));
+        flex: 0 0 auto;
+      }
+
+      .nav-item {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 140ms ease, opacity 140ms ease;
+      }
+
+      .nav-item--active {
+        transform: translateY(-2px) scale(1.02);
+        opacity: 1;
+      }
+
+      .nav-item:not(.nav-item--active) {
+        opacity: 0.82;
+      }
+
+      .nav-item img,
+      .nav-item svg {
+        display: block;
+      }
+
+      .nav-icon--home {
+        width: 38px;
+        height: 38px;
+      }
+
+      .nav-icon--info {
+        width: 40px;
+        height: 40px;
+      }
+
+      .nav-icon--music {
+        width: 32px;
+        height: 32px;
+      }
+
+      .nav-icon--pin {
+        width: 38px;
+        height: 38px;
+        color: #fff;
+      }
+
+      @media (max-width: 640px) {
+        .time-header {
+          flex: 0 0 60px;
+          font-size: 11px;
+          padding: 6px 4px;
+        }
+
+        .schedule-cell {
+          flex: 0 0 60px;
+        }
+
+        .location-headers {
+          width: 70px;
+        }
+
+        .schedule-container {
+          left: 70px;
+        }
+
+        .time-headers {
+          left: 70px;
+        }
+
+        .event-title {
+          font-size: 10px;
+        }
+
+        .event-time {
+          font-size: 9px;
+        }
+
+        .location-header {
+          font-size: 11px;
+          padding: 8px 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="phone" aria-label="U Festival agenda">
+      <!-- header -->
+      <header class="header">
+        <div class="brand" aria-label="U Festival">
+          <img
+            class="brand__mark"
+            src="assets/logo_white.svg"
+            alt="U Festival logo"
+          />
+          <span class="brand__name">Festival</span>
+        </div>
+
+        <div class="header__actions" aria-hidden="true">
+          <div class="header__toggle"></div>
+          <div class="flag" aria-label="Nederlandse vlag">
+            <span class="flag__red"></span>
+            <span class="flag__white"></span>
+            <span class="flag__blue"></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="content" aria-label="Festival agenda">
+        <div class="day-tabs">
+          <button class="day-tab day-tab--active" data-day="saturday">
+            Zaterdag
+          </button>
+          <button class="day-tab" data-day="sunday">Zondag</button>
+        </div>
+
+        <div class="schedule-wrapper schedule-wrapper--active" id="saturday-schedule"></div>
+        <div class="schedule-wrapper" id="sunday-schedule"></div>
+      </section>
+
+      <!-- footer -->
+      <footer class="footer" aria-label="Navigatie">
+        <a class="nav-item" href="home.html" aria-label="Home">
+          <img
+            class="nav-icon--home"
+            src="assets/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Home"
+          />
+        </a>
+
+        <a class="nav-item" href="info.html" aria-label="Info">
+          <img
+            class="nav-icon--info"
+            src="assets/info_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Info"
+          />
+        </a>
+
+        <a class="nav-item nav-item--active" href="agenda.html" aria-label="Agenda">
+          <img
+            class="nav-icon--music"
+            src="assets/music_note_2_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+            alt="Agenda"
+          />
+        </a>
+
+        <a class="nav-item" href="map.html" aria-label="Kaart">
+          <svg
+            class="nav-icon--pin"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            role="presentation"
+          >
+            <path
+              d="M12 21.25s6.5-5.73 6.5-10.75A6.5 6.5 0 0 0 12 4a6.5 6.5 0 0 0-6.5 6.5c0 5.02 6.5 10.75 6.5 10.75Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+              stroke-linejoin="round"
+            />
+            <circle
+              cx="12"
+              cy="10.5"
+              r="2.2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+            />
+          </svg>
+        </a>
+      </footer>
+    </main>
+
+    <script src="events-data.js"></script>
+    <script>
+      // Update nav-item--active based on current page
+      function initNavigation() {
+        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+          item.classList.remove('nav-item--active');
+          if (item.getAttribute('href') === currentPage ||
+              (currentPage === '' && item.getAttribute('href') === 'home.html')) {
+            item.classList.add('nav-item--active');
+          }
+        });
+      }
+
+      function initAgenda() {
+        initNavigation();
+
+        const dayTabs = document.querySelectorAll('.day-tab');
+        const LOCATIONS = ['Poton', 'The Lake', 'The Club', 'Hangar'];
+        const SLOT_MINUTES = 15;
+
+        const generateTimeSlots = () => {
+          const slots = [];
+          for (let h = 10; h < 24; h++) {
+            for (let m = 0; m < 60; m += SLOT_MINUTES) {
+              slots.push(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
+            }
+          }
+          return slots;
+        };
+
+        const timeSlots = generateTimeSlots();
+
+        const renderSchedule = (day) => {
+          const wrapper = document.getElementById(day + '-schedule');
+          wrapper.innerHTML = '';
+
+          const timeHeaders = document.createElement('div');
+          timeHeaders.className = 'time-headers';
+          timeSlots.forEach(time => {
+            const header = document.createElement('div');
+            header.className = 'time-header';
+            header.textContent = time;
+            timeHeaders.appendChild(header);
+          });
+          wrapper.appendChild(timeHeaders);
+
+          const locationHeaders = document.createElement('div');
+          locationHeaders.className = 'location-headers';
+          LOCATIONS.forEach(location => {
+            const header = document.createElement('div');
+            header.className = 'location-header';
+            header.textContent = location;
+            locationHeaders.appendChild(header);
+          });
+          wrapper.appendChild(locationHeaders);
+
+          const container = document.createElement('div');
+          container.className = 'schedule-container';
+          const grid = document.createElement('div');
+          grid.className = 'schedule-grid';
+
+          LOCATIONS.forEach(location => {
+            const row = document.createElement('div');
+            row.className = 'schedule-row';
+
+            const dayEvents = EVENTS.filter(
+              event => event.day === day && event.location === location
+            );
+
+            timeSlots.forEach((time, slotIndex) => {
+              const cell = document.createElement('div');
+              cell.className = 'schedule-cell';
+
+              const eventAtSlot = dayEvents.find(e => e.startTime === time);
+              if (eventAtSlot) {
+                const slotSpan = Math.ceil(eventAtSlot.duration / SLOT_MINUTES);
+                const eventBlock = document.createElement('div');
+                eventBlock.className = 'event-block';
+                eventBlock.setAttribute('data-event-id', eventAtSlot.id);
+                eventBlock.style.width = `calc(100% * ${slotSpan})`;
+
+                const isFavorite = localStorage.getItem(`favorite-${eventAtSlot.id}`) === 'true';
+                if (isFavorite) {
+                  eventBlock.classList.add('event-block--favorite');
+                }
+
+                const heartImg = document.createElement('img');
+                heartImg.className = 'event-heart';
+                if (isFavorite) {
+                  heartImg.classList.add('event-heart--favorited');
+                }
+                heartImg.src = 'assets/favorite_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png';
+                heartImg.alt = 'Favorite';
+
+                const titleEl = document.createElement('div');
+                titleEl.className = 'event-title';
+                titleEl.textContent = eventAtSlot.name;
+
+                const timeEl = document.createElement('div');
+                timeEl.className = 'event-time';
+                timeEl.textContent = `${eventAtSlot.startTime}`;
+
+                eventBlock.appendChild(heartImg);
+                eventBlock.appendChild(titleEl);
+                eventBlock.appendChild(timeEl);
+
+                heartImg.addEventListener('click', (e) => {
+                  e.stopPropagation();
+                  const isCurrentlyFavorite = localStorage.getItem(`favorite-${eventAtSlot.id}`) === 'true';
+                  localStorage.setItem(`favorite-${eventAtSlot.id}`, !isCurrentlyFavorite);
+
+                  if (!isCurrentlyFavorite) {
+                    heartImg.classList.add('event-heart--favorited');
+                    eventBlock.classList.add('event-block--favorite');
+                  } else {
+                    heartImg.classList.remove('event-heart--favorited');
+                    eventBlock.classList.remove('event-block--favorite');
+                  }
+                });
+
+                eventBlock.addEventListener('click', () => {
+                  console.log('Event clicked:', eventAtSlot.name);
+                });
+
+                cell.appendChild(eventBlock);
+              }
+
+              row.appendChild(cell);
+            });
+
+            grid.appendChild(row);
+          });
+
+          container.appendChild(grid);
+          wrapper.appendChild(container);
+        };
+
+        dayTabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const day = tab.getAttribute('data-day');
+
+            dayTabs.forEach(t => t.classList.remove('day-tab--active'));
+            tab.classList.add('day-tab--active');
+
+            document.querySelectorAll('.schedule-wrapper').forEach(w => {
+              w.classList.remove('schedule-wrapper--active');
+            });
+            document.getElementById(day + '-schedule').classList.add('schedule-wrapper--active');
+
+            if (!document.getElementById(day + '-schedule').querySelector('.schedule-grid')) {
+              renderSchedule(day);
+            }
+          });
+        });
+
+        renderSchedule('saturday');
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAgenda);
+      } else {
+        initAgenda();
+      }
+    </script>
+  </body>
+</html>

@@ -241,3 +241,139 @@ Changes made:
 - Grid layout properly aligned: 1 header row + 4 location rows
 
 -- End of entry --
+
+2026-05-29 - Prompt entry:
+
+User asked (literal):
+
+het blokkenschema is nu niet juist. hou de dezelfde index en style als bij de rest. WEL met dezelfde tijden info en events erin. ook wil ik de info klikbaar.
+
+Agent: GitHub Copilot
+Files modified for this prompt:
+- `agenda.html` (reworked into the shared app shell/style with the same schedule data and clickable info links)
+- `README.md` (this log entry)
+
+Changes made:
+- Restored the agenda page to the same header/footer shell and visual language used by the other pages
+- Kept the schedule content with the same times, locations, and events
+- Made artist/event blocks clickable to `info.html?artist=...`
+- Verified the page renders without errors in the browser
+
+-- End of entry --
+
+2026-05-29 - Prompt entry:
+
+User asked (literal):
+
+ziet er beter uit maar ik wil de schema. echt als schema. dus nu de lijnen naar beneden. verander ook de style. meer kleuren gebruiken
+
+Agent: GitHub Copilot
+Files modified for this prompt:
+- `agenda.html` (added vertical grid lines through the schedule and introduced richer color-coded event blocks)
+- `README.md` (this log entry)
+
+Changes made:
+- Added vertical grid lines so the agenda reads more like a real table/schedule
+- Reworked event blocks with multiple color classes for headliners, talents, culture, and DJ sets
+- Kept all times, locations, and clickable artist links intact
+
+-- End of entry --
+
+2026-05-29 - Prompt entry:
+
+User asked (literal):
+
+maak de home.html helemaal leeg behalve de footer en de header.. daartussen maak je nu een groot stuk waar staat: Welkom Bij het U festival!
+
+Agent: GitHub Copilot
+Files modified for this prompt:
+- `home.html` (replaced the middle content with a single large welcome message)
+- `README.md` (this log entry)
+
+Changes made:
+- Kept the existing header and footer intact
+- Removed the homepage content and replaced it with a centered welcome block
+- Styled the welcome text as the main focus of the page
+
+-- End of entry --
+
+2026-05-29 - Prompt entry:
+
+User asked (literal):
+
+maak daaronder de lineup van alle artiesten die komen
+
+Agent: GitHub Copilot
+Files modified for this prompt:
+- `home.html` (added a clickable lineup section below the welcome text)
+- `README.md` (this log entry)
+
+Changes made:
+- Added a lineup heading below the welcome message
+- Added clickable artist tiles for all listed artists
+- Kept the existing header and footer intact
+
+-- End of entry --
+
+2026-05-29 - Prompt entry:
+
+User asked (literal):
+
+maak de artiesten op de home.html met allemaal de bijpassende png fotos. ook als er word geklikt erop extra info:
+
+## **Armin van Buuren**
+
+Five-time “World’s No. 1 DJ” and trance icon, Armin delivers euphoric, high-energy sets that have headlined festivals from Tomorrowland to Ultra. His uplifting melodies and impeccable mixing keep crowds dancing for hours.
+
+## **Martin Garrix**
+
+Broke through as a teenager with “Animals,” Martin Garrix has become one of the biggest names in EDM. His anthemic big-room tracks and stadium-sized drops make him a festival favorite across Europe.
+
+## **Kensington**
+
+Rotterdam-born indie rock quintet known for soaring choruses and driving guitar riffs. Hits like “Streets” and “Riddles” showcase their knack for arena-ready hooks and emotionally charged lyricism.
+
+## **Within Temptation**
+
+Symphonic metal pioneers fronted by Sharon den Adel. Their cinematic soundscapes and operatic vocals (think “Ice Queen,” “Mother Earth”) translate into dramatic, visually stunning festival performances.
+
+## **De Staat**
+
+Experimental rock outfit from Nijmegen, blending funky grooves with angular guitar work and theatrical stagecraft. Tracks like “Witch Doctor” and “Down Town” highlight their genre-bending approach and infectious energy.
+
+## **Chef’Special**
+
+A four-piece from Haarlem mixing funk, pop, rock and hip-hop. Their upbeat, genre-fluid sound on songs like “Amigo” and “In Your Arms” makes for joyous, dance-floor-friendly live shows.
+
+## **Navarone**
+
+Utrecht’s hard-hitting rock four-piece, delivering riff-driven anthems and dynamic vocals. With a live reputation for raw intensity, they’re tailor-made for late-night main stages.
+
+## **Dotan**
+
+Folk-pop singer-songwriter whose intimate voice and acoustic arrangements (notably on “Home”) have earned him platinum sales and sell-out shows. His heartfelt storytelling connects deeply on festival acoustic stages.
+
+## **Eefje de Visser**
+
+Indie-pop artist crafting atmospheric, electronic-tinged songs. Her hypnotic vocals and lush production (as heard on “Ongeveer”) create a dreamlike vibe perfect for twilight festival slots.
+
+## **Froukje**
+
+Breakthrough pop singer Froukje Veenstra combines candid lyrics with catchy, synth-driven hooks. Since her 2021 debut, she’s become a voice of her generation—ideal for mid-day festival stages.
+
+## **Spinvis**
+
+Erik de Jong performs under the moniker Spinvis, crafting poetic, collage-like songs that blend spoken-word snippets, lo-fi electronics and wistful pop. His live shows turn everyday observations into shared, dreamlike experiences.
+
+Agent: GitHub Copilot
+Files created/modified for this prompt:
+- `events-data.js` (updated with local image paths and full bios)
+- `home.html` (render lineup as image tiles and added bio modal)
+
+Changes made:
+- Updated `events-data.js` to reference `assets/artists/*.png` and added a `bio` field for each artist containing the provided long-form biographies.
+- Replaced the textual lineup in `home.html` with a responsive image-tile grid populated from `ARTISTS` in `events-data.js`.
+- Implemented a lightweight modal in `home.html` that shows the artist image, name, subtext and the full bio when a tile is clicked. Added image fallback (generated SVG) if the PNG is missing.
+- Added styles for the tiles and modal and preserved the app-shell header/footer and service worker registration.
+
+-- End of entry --

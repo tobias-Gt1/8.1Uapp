@@ -151,9 +151,152 @@
         min-height: 0;
         overflow: auto;
         background: #fff;
-        padding: 6px max(6px, env(safe-area-inset-right))
+        padding: 14px max(6px, env(safe-area-inset-right))
           calc(18px + env(safe-area-inset-bottom))
           max(6px, env(safe-area-inset-left));
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-start;
+      }
+
+      .welcome {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        padding: 18px 16px 24px;
+        text-align: center;
+      }
+
+      .welcome__text {
+        margin: 0;
+        max-width: 9ch;
+        color: var(--black);
+        font-size: clamp(2.6rem, 8vw, 5.2rem);
+        line-height: 0.95;
+        font-weight: 900;
+        letter-spacing: -0.07em;
+        text-wrap: balance;
+      }
+
+      .lineup {
+        display: grid;
+        gap: 12px;
+        padding: 8px 0 0;
+      }
+
+      .lineup__title {
+        margin: 0;
+        color: var(--blue-dark);
+        font-size: clamp(1.1rem, 3.4vw, 1.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+      }
+
+      .lineup__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+      }
+
+      .artist-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #ffffff 0%, #f7f9fb 100%);
+        color: var(--ink);
+        text-decoration: none;
+        box-shadow: 0 6px 14px rgba(16, 24, 40, 0.06);
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      .artist-tile:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 28px rgba(16, 24, 40, 0.12);
+      }
+
+      .artist-photo {
+        width: 100%;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 10px;
+        background: linear-gradient(180deg,#e6eef6 0%,#dfeefc 100%);
+      }
+
+      .artist-name {
+        font-weight: 800;
+        font-size: 0.95rem;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      /* Modal for bios */
+      .bio-modal {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(0,0,0,0.45);
+        z-index: 1200;
+        padding: 24px;
+      }
+
+      .bio-sheet {
+        width: min(760px, 96%);
+        max-height: 92vh;
+        overflow: auto;
+        background: #fff;
+        border-radius: 14px;
+        padding: 18px;
+        box-shadow: 0 20px 40px rgba(2,6,23,0.35);
+      }
+
+      .bio-head {
+        display:flex;
+        gap:12px;
+        align-items:center;
+        margin-bottom:12px;
+      }
+
+      .bio-head img { width:96px; height:72px; object-fit:cover; border-radius:8px }
+
+      .bio-title { font-size:1.4rem; font-weight:800; margin:0 }
+
+      .bio-close { margin-left:auto; background:transparent;border:0;font-size:1.1rem;cursor:pointer }
+
+      .bio-body { color:var(--muted); line-height:1.5; font-size:1rem }
+
+      .lineup__item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        padding: 10px 12px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #2f88b0 0%, #2d84ac 100%);
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 700;
+        line-height: 1.1;
+        box-shadow: 0 8px 18px rgba(45, 132, 172, 0.18);
+      }
+
+      .lineup__item:nth-child(3n + 1) {
+        background: linear-gradient(180deg, #ff735d 0%, #f03228 100%);
+      }
+
+      .lineup__item:nth-child(3n + 2) {
+        background: linear-gradient(180deg, #53a9d0 0%, #247ba0 100%);
+      }
+
+      .lineup__item:nth-child(3n) {
+        background: linear-gradient(180deg, #f5c94f 0%, #e3b505 100%);
+        color: #111111;
       }
 
       .accordion {
@@ -241,7 +384,7 @@
       }
 
       .nav-item {
-        appearance: none;
+        appearance: none; 
         border: 0;
         background: transparent;
         padding: 0;
@@ -318,42 +461,32 @@
         </div>
       </header>
 
-      <section class="content" aria-label="Festival informatie">
-        <div class="accordion accordion--open">
-          <p class="accordion__title">Algemeen &amp; contact</p>
-          <img
-            class="accordion__arrow"
-            src="assets/arrow_forward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
-            alt=""
-          />
+      <section class="content" aria-label="Welkom">
+        <div class="welcome">
+          <h1 class="welcome__text">Welkom Bij het U festival!</h1>
+          <section class="lineup" aria-label="Line-up">
+            <h2 class="lineup__title">Line-up</h2>
+            <div id="lineupGrid" class="lineup__grid" aria-live="polite">
+              <!-- Artist tiles will be rendered here -->
+            </div>
+          </section>
         </div>
-
-        <div class="accordion">
-          <p class="accordion__title">Bereikbaarheid</p>
-          <img
-            class="accordion__arrow"
-            src="assets/arrow_forward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
-            alt=""
-          />
-        </div>
-
-        <section class="section">
-          <h2>Fiets</h2>
-          <p>
-            Er is een grote gratis fietsenstalling aanwezig waar je jouw fiets
-            de gehele dag kunt stallen.
-          </p>
-
-          <h2>Auto</h2>
-          <p>
-            Je kunt een parkingticket aanschaffen. Parkeren kan op P+R
-            Papendorp, volg hiervoor de borden 'P online ticket'. Heb je geen
-            ticket van te voren gekocht? Dan kun je bij de parkeerwachter op
-            locatie een parkeerticket aanschaffen (PIN ONLY). Let wel op: VOL =
-            VOL.
-          </p>
-        </section>
       </section>
+
+      <!-- Bio modal -->
+      <div id="bioModal" class="bio-modal" style="display:none" aria-hidden="true">
+        <div class="bio-sheet" role="dialog" aria-modal="true">
+          <div class="bio-head">
+            <img id="bioImg" src="" alt="artist image" />
+            <div>
+              <h3 id="bioName" class="bio-title"></h3>
+              <p id="bioSub" style="margin:4px 0 0;color:var(--muted)"></p>
+            </div>
+            <button id="bioClose" class="bio-close" aria-label="Close">✕</button>
+          </div>
+          <div id="bioBody" class="bio-body"></div>
+        </div>
+      </div>
 
       <footer class="footer" aria-label="Navigatie">
         <a class="nav-item nav-item--active" href="home.html" aria-label="Home">
@@ -430,6 +563,80 @@
           .then(() => console.log('Service Worker Registered'))
           .catch(e => console.warn('SW registration failed:', e));
       }
+    </script>
+
+    <script src="events-data.js"></script>
+    <script>
+      function initialsFor(name) {
+        return name.split(' ').map(s => s[0]).slice(0,2).join('').toUpperCase();
+      }
+
+      function makeFallbackDataURL(name, w=400, h=300) {
+        const initials = initialsFor(name);
+        const bg = '#dfeefc';
+        const fg = '#102028';
+        const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}'><rect width='100%' height='100%' fill='${bg}'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial, Helvetica, sans-serif' font-size='48' fill='${fg}'>${initials}</text></svg>`;
+        return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+      }
+
+      function renderLineup() {
+        const grid = document.getElementById('lineupGrid');
+        if (!window.ARTISTS || !grid) return;
+        grid.innerHTML = '';
+        ARTISTS.forEach(artist => {
+          const a = document.createElement('a');
+          a.className = 'artist-tile';
+          a.href = '#';
+          a.setAttribute('data-artist-id', artist.id);
+
+          const img = document.createElement('img');
+          img.className = 'artist-photo';
+          img.alt = artist.name;
+          img.src = artist.image || makeFallbackDataURL(artist.name);
+          img.onerror = function(){ this.onerror=null; this.src = makeFallbackDataURL(artist.name); };
+
+          const name = document.createElement('div');
+          name.className = 'artist-name';
+          name.textContent = artist.name;
+
+          a.appendChild(img);
+          a.appendChild(name);
+
+          a.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            showBioFor(artist.id);
+          });
+
+          grid.appendChild(a);
+        });
+      }
+
+      function showBioFor(id) {
+        const artist = (window.ARTISTS || []).find(a => a.id === Number(id));
+        if (!artist) return;
+        document.getElementById('bioImg').src = artist.image || makeFallbackDataURL(artist.name);
+        document.getElementById('bioImg').onerror = function(){ this.onerror=null; this.src = makeFallbackDataURL(artist.name); };
+        document.getElementById('bioName').textContent = artist.name;
+        document.getElementById('bioSub').textContent = artist.description || '';
+        document.getElementById('bioBody').innerHTML = artist.bio ? ('<p>' + artist.bio + '</p>') : '';
+        const modal = document.getElementById('bioModal');
+        modal.style.display = 'grid';
+        modal.setAttribute('aria-hidden','false');
+      }
+
+      function hideBio() {
+        const modal = document.getElementById('bioModal');
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden','true');
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderLineup();
+        document.getElementById('bioClose').addEventListener('click', hideBio);
+        document.getElementById('bioModal').addEventListener('click', (e) => {
+          if (e.target === e.currentTarget) hideBio();
+        });
+      });
     </script>
   </body>
 </html>

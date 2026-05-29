@@ -567,6 +567,20 @@
 
     <script src="events-data.js"></script>
     <script>
+      const HOME_ARTISTS = [
+        { name: 'Armin van Buuren', description: 'Trance icon', image: 'assets/artists/armin_van_buuren.png', bio: 'Five-time “World’s No. 1 DJ” and trance icon, Armin delivers euphoric, high-energy sets that have headlined festivals from Tomorrowland to Ultra. His uplifting melodies and impeccable mixing keep crowds dancing for hours.' },
+        { name: 'Martin Garrix', description: 'EDM superstar', image: 'assets/artists/martin_garrix.png', bio: 'Broke through as a teenager with “Animals,” Martin Garrix has become one of the biggest names in EDM. His anthemic big-room tracks and stadium-sized drops make him a festival favorite across Europe.' },
+        { name: 'Kensington', description: 'Indie rock anthems', image: 'assets/artists/kensington.png', bio: 'Rotterdam-born indie rock quintet known for soaring choruses and driving guitar riffs. Hits like “Streets” and “Riddles” showcase their knack for arena-ready hooks and emotionally charged lyricism.' },
+        { name: 'Within Temptation', description: 'Symphonic metal pioneers', image: 'assets/artists/within_temptation.png', bio: 'Symphonic metal pioneers fronted by Sharon den Adel. Their cinematic soundscapes and operatic vocals translate into dramatic, visually stunning festival performances.' },
+        { name: 'De Staat', description: 'Experimental rock innovators', image: 'assets/artists/de_staat.png', bio: 'Experimental rock outfit from Nijmegen, blending funky grooves with angular guitar work and theatrical stagecraft. Tracks like “Witch Doctor” and “Down Town” highlight their genre-bending approach and infectious energy.' },
+        { name: 'Chef\'Special', description: 'Genre-blending funk-pop', image: 'assets/artists/chef_special.png', bio: 'A four-piece from Haarlem mixing funk, pop, rock and hip-hop. Their upbeat, genre-fluid sound on songs like “Amigo” and “In Your Arms” makes for joyous, dance-floor-friendly live shows.' },
+        { name: 'Navarone', description: 'Hard-hitting rock four-piece', image: 'assets/artists/navarone.png', bio: 'Utrecht’s hard-hitting rock four-piece, delivering riff-driven anthems and dynamic vocals. With a live reputation for raw intensity, they’re tailor-made for late-night main stages.' },
+        { name: 'Dotan', description: 'Folk-pop singer-songwriter', image: 'assets/artists/dotan.png', bio: 'Folk-pop singer-songwriter whose intimate voice and acoustic arrangements (notably on “Home”) have earned him platinum sales and sell-out shows. His heartfelt storytelling connects deeply on festival acoustic stages.' },
+        { name: 'Eefje de Visser', description: 'Atmospheric indie-pop', image: 'assets/artists/eefje_de_visser.png', bio: 'Indie-pop artist crafting atmospheric, electronic-tinged songs. Her hypnotic vocals and lush production (as heard on “Ongeveer”) create a dreamlike vibe perfect for twilight festival slots.' },
+        { name: 'Froukje', description: 'Candid pop songwriter', image: 'assets/artists/froukje.png', bio: 'Breakthrough pop singer Froukje Veenstra combines candid lyrics with catchy, synth-driven hooks. Since her 2021 debut, she’s become a voice of her generation—ideal for mid-day festival stages.' },
+        { name: 'Spinvis', description: 'Poetic lo-fi surrealist in pop form', image: 'assets/artists/spinvis.png', bio: 'Erik de Jong performs under the moniker Spinvis, crafting poetic, collage-like songs that blend spoken-word snippets, lo-fi electronics and wistful pop. His live shows turn everyday observations into shared, dreamlike experiences.' }
+      ];
+
       function initialsFor(name) {
         return name.split(' ').map(s => s[0]).slice(0,2).join('').toUpperCase();
       }
@@ -581,13 +595,14 @@
 
       function renderLineup() {
         const grid = document.getElementById('lineupGrid');
-        if (!window.ARTISTS || !grid) return;
+        const artists = (window.ARTISTS && window.ARTISTS.length) ? window.ARTISTS : HOME_ARTISTS;
+        if (!grid) return;
         grid.innerHTML = '';
-        ARTISTS.forEach(artist => {
+        artists.forEach(artist => {
           const a = document.createElement('a');
           a.className = 'artist-tile';
           a.href = '#';
-          a.setAttribute('data-artist-id', artist.id);
+          a.setAttribute('data-artist-id', artist.id || artist.name);
 
           const img = document.createElement('img');
           img.className = 'artist-photo';
@@ -604,7 +619,7 @@
 
           a.addEventListener('click', (ev) => {
             ev.preventDefault();
-            showBioFor(artist.id);
+            showBioFor(artist.id || artist.name);
           });
 
           grid.appendChild(a);
@@ -612,7 +627,8 @@
       }
 
       function showBioFor(id) {
-        const artist = (window.ARTISTS || []).find(a => a.id === Number(id));
+        const artists = (window.ARTISTS && window.ARTISTS.length) ? window.ARTISTS : HOME_ARTISTS;
+        const artist = artists.find(a => a.id === Number(id) || a.name === id);
         if (!artist) return;
         document.getElementById('bioImg').src = artist.image || makeFallbackDataURL(artist.name);
         document.getElementById('bioImg').onerror = function(){ this.onerror=null; this.src = makeFallbackDataURL(artist.name); };

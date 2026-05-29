@@ -9,7 +9,7 @@ const ARTISTS = [
     name: 'Armin van Buuren',
     description: 'Trance icon',
     descriptionEn: 'Trance icon',
-    image: 'assets/artists/armin_van_buuren.png',
+    image: 'assets/arminvanburen.png',
     bio: `Five-time “World’s No. 1 DJ” and trance icon, Armin delivers euphoric, high-energy sets that have headlined festivals from Tomorrowland to Ultra. His uplifting melodies and impeccable mixing keep crowds dancing for hours.`
   },
   {
@@ -17,7 +17,7 @@ const ARTISTS = [
     name: 'Martin Garrix',
     description: 'EDM superstar',
     descriptionEn: 'EDM superstar',
-    image: 'assets/artists/martin_garrix.png',
+    image: 'assets/martingarrix.png',
     bio: `Broke through as a teenager with “Animals,” Martin Garrix has become one of the biggest names in EDM. His anthemic big-room tracks and stadium-sized drops make him a festival favorite across Europe.`
   },
   {
@@ -25,7 +25,7 @@ const ARTISTS = [
     name: 'Kensington',
     description: 'Indie rock anthems',
     descriptionEn: 'Indie rock anthems',
-    image: 'assets/artists/kensington.png',
+    image: 'assets/kensington.png',
     bio: `Rotterdam-born indie rock quintet known for soaring choruses and driving guitar riffs. Hits like “Streets” and “Riddles” showcase their knack for arena-ready hooks and emotionally charged lyricism.`
   },
   {
@@ -33,7 +33,7 @@ const ARTISTS = [
     name: 'Within Temptation',
     description: 'Symphonic metal pioneers',
     descriptionEn: 'Symphonic metal pioneers',
-    image: 'assets/artists/within_temptation.png',
+    image: 'assets/withintemptation.png',
     bio: `Symphonic metal pioneers fronted by Sharon den Adel. Their cinematic soundscapes and operatic vocals translate into dramatic, visually stunning festival performances.`
   },
   {
@@ -41,7 +41,7 @@ const ARTISTS = [
     name: 'De Staat',
     description: 'Experimental rock innovators',
     descriptionEn: 'Experimental rock innovators',
-    image: 'assets/artists/de_staat.png',
+    image: 'assets/destaat.png',
     bio: `Experimental rock outfit from Nijmegen, blending funky grooves with angular guitar work and theatrical stagecraft. Tracks like “Witch Doctor” and “Down Town” highlight their genre-bending approach and infectious energy.`
   },
   {
@@ -49,7 +49,7 @@ const ARTISTS = [
     name: 'Chef\'Special',
     description: 'Genre-blending funk-pop',
     descriptionEn: 'Genre-blending funk-pop',
-    image: 'assets/artists/chef_special.png',
+    image: 'assets/chefsspecial.png',
     bio: `A four-piece from Haarlem mixing funk, pop, rock and hip-hop. Their upbeat, genre-fluid sound on songs like “Amigo” and “In Your Arms” makes for joyous, dance-floor-friendly live shows.`
   },
   {
@@ -57,7 +57,7 @@ const ARTISTS = [
     name: 'Navarone',
     description: 'Hard-hitting rock four-piece',
     descriptionEn: 'Hard-hitting rock four-piece',
-    image: 'assets/artists/navarone.png',
+    image: 'assets/navarone.png',
     bio: `Utrecht’s hard-hitting rock four-piece, delivering riff-driven anthems and dynamic vocals. With a live reputation for raw intensity, they’re tailor-made for late-night main stages.`
   },
   {
@@ -65,7 +65,7 @@ const ARTISTS = [
     name: 'Dotan',
     description: 'Folk-pop singer-songwriter',
     descriptionEn: 'Folk-pop singer-songwriter',
-    image: 'assets/artists/dotan.png',
+    image: 'assets/dotan.png',
     bio: `Folk-pop singer-songwriter whose intimate voice and acoustic arrangements (notably on “Home”) have earned him platinum sales and sell-out shows. His heartfelt storytelling connects deeply on festival acoustic stages.`
   },
   {
@@ -73,7 +73,7 @@ const ARTISTS = [
     name: 'Eefje de Visser',
     description: 'Atmospheric indie-pop',
     descriptionEn: 'Atmospheric indie-pop',
-    image: 'assets/artists/eefje_de_visser.png',
+    image: 'assets/eefjedevisser.png',
     bio: `Indie-pop artist crafting atmospheric, electronic-tinged songs. Her hypnotic vocals and lush production (as heard on “Ongeveer”) create a dreamlike vibe perfect for twilight festival slots.`
   },
   {
@@ -81,7 +81,7 @@ const ARTISTS = [
     name: 'Froukje',
     description: 'Candid pop songwriter',
     descriptionEn: 'Candid pop songwriter',
-    image: 'assets/artists/froukje.png',
+    image: 'assets/froukje.png',
     bio: `Breakthrough pop singer Froukje Veenstra combines candid lyrics with catchy, synth-driven hooks. Since her 2021 debut, she’s become a voice of her generation—ideal for mid-day festival stages.`
   },
   {
@@ -89,7 +89,7 @@ const ARTISTS = [
     name: 'Spinvis',
     description: 'Poetic lo-fi surrealist in pop form',
     descriptionEn: 'Poetic lo-fi surrealist in pop form',
-    image: 'assets/artists/spinvis.png',
+    image: 'assets/spinvis.png',
     bio: `Erik de Jong performs under the moniker Spinvis, crafting poetic, collage-like songs that blend spoken-word snippets, lo-fi electronics and wistful pop. His live shows turn everyday observations into shared, dreamlike experiences.`
   }
 ];
